@@ -1,84 +1,183 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./Appointment.css";
 
 function Appointment() {
-  const [patientId, setPatientId] = useState("");
-  const [doctorId, setDoctorId] = useState("");
+
+  const [patientName, setPatientName] = useState("");
+  const [patientAge, setPatientAge] = useState("");
+  const [patientGender, setPatientGender] = useState("");
+  const [doctorName, setDoctorName] = useState("");
+  const [disease, setDisease] = useState("");
   const [appointmentDate, setAppointmentDate] = useState("");
 
+  const [doctors, setDoctors] = useState([]);
+  const [successMessage, setSuccessMessage] = useState("");
+
+  // Fetch all doctors
+  useEffect(() => {
+    fetch("http://localhost:8080/doctors")
+      .then((response) => response.json())
+      .then((data) => setDoctors(data))
+      .catch((error) => console.log(error));
+  }, []);
+
   const handleSubmit = async (e) => {
+
     e.preventDefault();
 
     const data = {
-      patientId: Number(patientId),
-      doctorId: Number(doctorId),
+      patientName,
+      patientAge: Number(patientAge),
+      patientGender,
+      doctorName,
+      disease,
       appointmentDate
     };
 
     try {
-      const response = await fetch("http://localhost:8080/appointments", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-      });
+
+      const response = await fetch(
+        "http://localhost:8080/appointments",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(data)
+        }
+      );
 
       if (response.ok) {
-        alert("Appointment Booked Successfully!");
-        setPatientId("");
-        setDoctorId("");
+
+        setSuccessMessage(
+          "✅ Appointment Booked Successfully!"
+        );
+
+        setTimeout(() => {
+          setSuccessMessage("");
+        }, 3000);
+
+        setPatientName("");
+        setPatientAge("");
+        setPatientGender("");
+        setDoctorName("");
+        setDisease("");
         setAppointmentDate("");
+
       } else {
-        const errorData = await response.json();
-        alert("Error booking appointment: " + errorData.message);
+
+        const errorText = await response.text();
+        alert(errorText);
+
       }
+
     } catch (error) {
-      alert("Network error: " + error.message);
+
+      alert(error.message);
+
     }
   };
 
   return (
     <div className="appointment-page">
+
       <div className="appointment-card">
-        <h2 className="title">Book Appointment</h2>
+
+        <h2 className="appointment-title">
+          🏥 Book Appointment
+        </h2>
+
+        {successMessage && (
+          <div className="success-alert">
+            {successMessage}
+          </div>
+        )}
+
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="patientId">Patient ID</label>
-            <input
-              id="patientId"
-              type="number"
-              value={patientId}
-              onChange={(e) => setPatientId(e.target.value)}
-              required
-            />
-          </div>
 
-          <div className="form-group">
-            <label htmlFor="doctorId">Doctor ID</label>
-            <input
-              id="doctorId"
-              type="number"
-              value={doctorId}
-              onChange={(e) => setDoctorId(e.target.value)}
-              required
-            />
-          </div>
+          <input
+            type="text"
+            placeholder="Patient Name"
+            value={patientName}
+            onChange={(e) =>
+              setPatientName(e.target.value)
+            }
+            required
+          />
 
-          <div className="form-group">
-            <label htmlFor="appointmentDate">Appointment Date</label>
-            <input
-              id="appointmentDate"
-              type="date"
-              value={appointmentDate}
-              onChange={(e) => setAppointmentDate(e.target.value)}
-              required
-            />
-          </div>
+          <input
+            type="number"
+            placeholder="Patient Age"
+            value={patientAge}
+            onChange={(e) =>
+              setPatientAge(e.target.value)
+            }
+            required
+          />
 
-          <button className="book-btn" type="submit">
+          <input
+            type="text"
+            placeholder="Patient Gender"
+            value={patientGender}
+            onChange={(e) =>
+              setPatientGender(e.target.value)
+            }
+            required
+          />
+
+          <select
+            value={doctorName}
+            onChange={(e) =>
+              setDoctorName(e.target.value)
+            }
+            required
+          >
+            <option value="">
+              Select Doctor
+            </option>
+
+            {doctors.map((doctor) => (
+              <option
+                key={doctor.doctorId}
+                value={doctor.doctorName}
+              >
+                {doctor.doctorName}
+              </option>
+            ))}
+          </select>
+
+          <input
+            type="text"
+            placeholder="Disease"
+            value={disease}
+            onChange={(e) =>
+              setDisease(e.target.value)
+            }
+            required
+          />
+
+          <input
+            type="date"
+            value={appointmentDate}
+            onChange={(e) =>
+              setAppointmentDate(
+                e.target.value
+              )
+            }
+            required
+          />
+
+          <button
+            className="book-btn"
+            type="submit"
+          >
             Book Appointment
           </button>
+
         </form>
+
       </div>
+
     </div>
   );
 }

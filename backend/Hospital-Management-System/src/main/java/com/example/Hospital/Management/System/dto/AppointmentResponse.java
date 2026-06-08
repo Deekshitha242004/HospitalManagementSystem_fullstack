@@ -6,15 +6,22 @@ public class AppointmentResponse {
     private String appointmentDate;
     private String patientName;
     private String doctorName;
+    private String disease;
 
-    public AppointmentResponse() {}
+    public AppointmentResponse() {
+    }
 
-    public AppointmentResponse(Long appointmentId, String appointmentDate,
-                               String patientName, String doctorName) {
+    public AppointmentResponse(Long appointmentId,
+                               String appointmentDate,
+                               String patientName,
+                               String doctorName,
+                               String disease) {
+
         this.appointmentId = appointmentId;
         this.appointmentDate = appointmentDate;
         this.patientName = patientName;
         this.doctorName = doctorName;
+        this.disease = disease;
     }
 
     public Long getAppointmentId() {
@@ -47,6 +54,14 @@ public class AppointmentResponse {
 
     public void setDoctorName(String doctorName) {
         this.doctorName = doctorName;
+    }
+
+    public String getDisease() {
+        return disease;
+    }
+
+    public void setDisease(String disease) {
+        this.disease = disease;
     }
 }
 

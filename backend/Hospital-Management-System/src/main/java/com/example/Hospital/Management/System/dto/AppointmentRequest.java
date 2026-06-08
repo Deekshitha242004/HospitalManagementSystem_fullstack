@@ -1,28 +1,53 @@
 package com.example.Hospital.Management.System.dto;
 
-
-
 public class AppointmentRequest {
-    private Long patientId;
-    private Long doctorId;
+
+    private String patientName;
+    private int patientAge;
+    private String patientGender;
+
+    private String doctorName;
+    private String disease;
     private String appointmentDate;
 
-    public AppointmentRequest() {}
-
-    public Long getPatientId() {
-        return patientId;
+    public String getPatientName() {
+        return patientName;
     }
 
-    public void setPatientId(Long patientId) {
-        this.patientId = patientId;
+    public void setPatientName(String patientName) {
+        this.patientName = patientName;
     }
 
-    public Long getDoctorId() {
-        return doctorId;
+    public int getPatientAge() {
+        return patientAge;
     }
 
-    public void setDoctorId(Long doctorId) {
-        this.doctorId = doctorId;
+    public void setPatientAge(int patientAge) {
+        this.patientAge = patientAge;
+    }
+
+    public String getPatientGender() {
+        return patientGender;
+    }
+
+    public void setPatientGender(String patientGender) {
+        this.patientGender = patientGender;
+    }
+
+    public String getDoctorName() {
+        return doctorName;
+    }
+
+    public void setDoctorName(String doctorName) {
+        this.doctorName = doctorName;
+    }
+
+    public String getDisease() {
+        return disease;
+    }
+
+    public void setDisease(String disease) {
+        this.disease = disease;
     }
 
     public String getAppointmentDate() {

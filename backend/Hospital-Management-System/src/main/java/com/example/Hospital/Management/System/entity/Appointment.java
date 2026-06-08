@@ -21,6 +21,8 @@ public class Appointment implements Serializable {
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;
 
+    private String disease;
+
     // ✅ Getter and Setter for appointmentId
     public Long getAppointmentId() {
         return appointmentId;
@@ -55,5 +57,13 @@ public class Appointment implements Serializable {
 
     public void setDoctor(Doctor doctor) {
         this.doctor = doctor;
+    }
+
+    public String getDisease() {
+        return disease;
+    }
+
+    public void setDisease(String disease) {
+        this.disease = disease;
     }
 }

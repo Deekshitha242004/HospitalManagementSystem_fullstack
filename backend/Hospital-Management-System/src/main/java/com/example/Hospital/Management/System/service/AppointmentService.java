@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 import com.example.Hospital.Management.System.dto.AppointmentRequest;
 import com.example.Hospital.Management.System.dto.AppointmentResponse;
 import com.example.Hospital.Management.System.entity.Appointment;
-import com.example.Hospital.Management.System.entity.Patient;
 import com.example.Hospital.Management.System.entity.Doctor;
+import com.example.Hospital.Management.System.entity.Patient;
 import com.example.Hospital.Management.System.repository.AppointmentRepository;
-import com.example.Hospital.Management.System.repository.PatientRepository;
 import com.example.Hospital.Management.System.repository.DoctorRepository;
+import com.example.Hospital.Management.System.repository.PatientRepository;
 
 @Service
 public class AppointmentService {
@@ -34,27 +34,41 @@ public class AppointmentService {
     // CREATE APPOINTMENT
     public AppointmentResponse createAppointment(AppointmentRequest request) {
 
-        Patient patient = patientRepository.findById(request.getPatientId())
-                .orElseThrow(() -> new RuntimeException("Patient not found"));
+        Patient patient = new Patient();
 
-        Doctor doctor = doctorRepository.findById(request.getDoctorId())
-                .orElseThrow(() -> new RuntimeException("Doctor not found"));
+        patient.setPatientName(request.getPatientName());
+        patient.setPatientAge(request.getPatientAge());
+        patient.setPatientGender(request.getPatientGender());
+
+        patient = patientRepository.save(patient);
+
+        Doctor doctor =
+                doctorRepository.findByDoctorName(
+                        request.getDoctorName());
+
+        if (doctor == null) {
+            throw new RuntimeException("Doctor not found");
+        }
 
         Appointment appointment = new Appointment();
 
         appointment.setPatient(patient);
         appointment.setDoctor(doctor);
-        appointment.setAppointmentDate(
-                LocalDate.parse(request.getAppointmentDate())
-        );
+        appointment.setDisease(request.getDisease());
 
-        Appointment saved = appointmentRepository.save(appointment);
+        appointment.setAppointmentDate(
+                LocalDate.parse(
+                        request.getAppointmentDate()));
+
+        Appointment saved =
+                appointmentRepository.save(appointment);
 
         return new AppointmentResponse(
                 saved.getAppointmentId(),
                 saved.getAppointmentDate().toString(),
                 saved.getPatient().getPatientName(),
-                saved.getDoctor().getDoctorName()
+                saved.getDoctor().getDoctorName(),
+                saved.getDisease()
         );
     }
 
@@ -67,7 +81,8 @@ public class AppointmentService {
                         app.getAppointmentId(),
                         app.getAppointmentDate().toString(),
                         app.getPatient().getPatientName(),
-                        app.getDoctor().getDoctorName()
+                        app.getDoctor().getDoctorName(),
+                        app.getDisease()
                 ))
                 .toList();
     }
@@ -82,7 +97,8 @@ public class AppointmentService {
                         app.getAppointmentId(),
                         app.getAppointmentDate().toString(),
                         app.getPatient().getPatientName(),
-                        app.getDoctor().getDoctorName()
+                        app.getDoctor().getDoctorName(),
+                        app.getDisease()
                 ))
                 .toList();
     }
