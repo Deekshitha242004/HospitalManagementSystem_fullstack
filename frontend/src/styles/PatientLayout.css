@@ -1,0 +1,119 @@
+.page-container {
+  display: flex;
+  min-height: 100vh;
+  background: #eef5f5;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+  width: 250px;
+  background: linear-gradient(to bottom, #020b2d, #1d2a44);
+  color: white;
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sidebar h2 {
+  font-size: 40px;
+  margin-bottom: 50px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  margin: 30px 0;
+  cursor: pointer;
+  font-size: 24px;
+  transition: 0.3s;
+}
+
+.sidebar ul li:hover {
+  color: #4da6ff;
+}
+
+/* MAIN CONTENT */
+
+.main-content {
+  flex: 1;
+  padding: 30px;
+}
+
+/* TOPBAR */
+
+.topbar {
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  margin-bottom: 30px;
+}
+
+.topbar h1 {
+  font-size: 42px;
+  color: #222;
+}
+
+/* INFO CARD */
+
+.info-card {
+  background: white;
+  border-radius: 15px;
+  padding: 25px;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.card-title {
+  margin-bottom: 20px;
+  color: #1d2a44;
+}
+
+/* KEY VALUE */
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #ddd;
+  padding: 14px 0;
+}
+
+.info-key {
+  font-weight: bold;
+  color: #333;
+}
+
+.info-value {
+  color: #555;
+}
+
+/* EMPTY */
+
+.empty-box {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  font-size: 22px;
+  color: gray;
+}
+
+/* LOGOUT */
+
+.logout-btn {
+  background: #ff4d4d;
+  border: none;
+  color: white;
+  padding: 14px;
+  border-radius: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background: #e60000;
+}

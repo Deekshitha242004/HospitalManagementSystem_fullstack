@@ -1,56 +1,28 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
 import Home from "./components/Home";
 import Appointment from "./components/Appointment";
 import Register from "./components/Register";
 import Login from "./components/Login";
-import DoctorCards from "./components/Doctors";
-
 import AdminDashboard from "./pages/AdminDashboard";
 import DoctorDashboard from "./pages/DoctorDashboard";
 import PatientDashboard from "./pages/PatientDashboard";
 import StaffDashboard from "./pages/StaffDashboard";
-
-import PatientAppointments from "./patientdfeatures/PatientAppointments";
-import PatientPrescriptions from "./patientdfeatures/PatientPrescriptions";
-import PatientMedicalHistory from "./patientdfeatures/PatientMedicalHistory";
-import PatientReports from "./patientdfeatures/PatientReports";
-
-import ProtectedRoute from "./components/ProtectedRoute";
+import DoctorCards from "./components/Doctors";
+import ProtectedRoute from "./components/ProtectedRoute"; // ✅ ADD
 
 function App() {
-
   return (
-
     <BrowserRouter>
 
       <Routes>
-
-        {/* PUBLIC ROUTES */}
-
         <Route path="/" element={<Home />} />
+        <Route path="/appointment" element={<Appointment />} />
 
-        <Route
-          path="/appointment"
-          element={<Appointment />}
-        />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+         <Route path="/doctors" element={<DoctorCards />} />
 
-        <Route
-          path="/register"
-          element={<Register />}
-        />
-
-        <Route
-          path="/login"
-          element={<Login />}
-        />
-
-        <Route
-          path="/doctors"
-          element={<DoctorCards />}
-        />
-
-        {/* ADMIN */}
+        {/* 🔐 PROTECTED ROUTES */}
 
         <Route
           path="/admin-dashboard"
@@ -61,8 +33,6 @@ function App() {
           }
         />
 
-        {/* DOCTOR */}
-
         <Route
           path="/doctor-dashboard"
           element={
@@ -71,8 +41,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-
-        {/* STAFF */}
 
         <Route
           path="/staff-dashboard"
@@ -83,57 +51,11 @@ function App() {
           }
         />
 
-        {/* PATIENT DASHBOARD */}
-
         <Route
           path="/patient-dashboard"
           element={
             <ProtectedRoute allowedRoles={["PATIENT"]}>
               <PatientDashboard />
-            </ProtectedRoute>
-          }
-        />
-
-        {/* PATIENT APPOINTMENTS */}
-
-        <Route
-          path="/patient-appointments"
-          element={
-            <ProtectedRoute allowedRoles={["PATIENT"]}>
-              <PatientAppointments />
-            </ProtectedRoute>
-          }
-        />
-
-        {/* PATIENT PRESCRIPTIONS */}
-
-        <Route
-          path="/patient-prescriptions"
-          element={
-            <ProtectedRoute allowedRoles={["PATIENT"]}>
-              <PatientPrescriptions />
-            </ProtectedRoute>
-          }
-        />
-
-        {/* PATIENT MEDICAL HISTORY */}
-
-        <Route
-          path="/patient-medical-history"
-          element={
-            <ProtectedRoute allowedRoles={["PATIENT"]}>
-              <PatientMedicalHistory />
-            </ProtectedRoute>
-          }
-        />
-
-        {/* PATIENT REPORTS */}
-
-        <Route
-          path="/patient-reports"
-          element={
-            <ProtectedRoute allowedRoles={["PATIENT"]}>
-              <PatientReports />
             </ProtectedRoute>
           }
         />

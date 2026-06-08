@@ -17,28 +17,18 @@ public class AppointmentController {
     @Autowired
     private AppointmentService appointmentService;
 
-    // CREATE APPOINTMENT
+    // Create a new appointment
     @PostMapping
-    public AppointmentResponse addAppointment(
-            @RequestBody AppointmentRequest request) {
-
+    public AppointmentResponse addAppointment(@RequestBody AppointmentRequest request) {
         return appointmentService.createAppointment(request);
     }
 
-    // GET ALL APPOINTMENTS
+    // Get all appointments as DTOs
     @GetMapping
     public List<AppointmentResponse> getAllAppointments() {
-
         return appointmentService.getAllAppointmentsDTO();
     }
-
-    // GET APPOINTMENTS BY PATIENT ID
-    @GetMapping("/patient/{patientId}")
-    public List<AppointmentResponse> getAppointmentsByPatient(
-            @PathVariable Long patientId) {
-
-        return appointmentService.getAppointmentsByPatient(patientId);
-    }
 }
+
 
 

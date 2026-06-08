@@ -21,17 +21,15 @@ public class AppointmentService {
     private final PatientRepository patientRepository;
     private final DoctorRepository doctorRepository;
 
-    public AppointmentService(
-            AppointmentRepository appointmentRepository,
-            PatientRepository patientRepository,
-            DoctorRepository doctorRepository) {
-
+    public AppointmentService(AppointmentRepository appointmentRepository,
+                              PatientRepository patientRepository,
+                              DoctorRepository doctorRepository) {
         this.appointmentRepository = appointmentRepository;
         this.patientRepository = patientRepository;
         this.doctorRepository = doctorRepository;
     }
 
-    // CREATE APPOINTMENT
+    // ✅ CREATE APPOINTMENT (returns clean DTO)
     public AppointmentResponse createAppointment(AppointmentRequest request) {
 
         Patient patient = patientRepository.findById(request.getPatientId())
@@ -41,12 +39,9 @@ public class AppointmentService {
                 .orElseThrow(() -> new RuntimeException("Doctor not found"));
 
         Appointment appointment = new Appointment();
-
         appointment.setPatient(patient);
         appointment.setDoctor(doctor);
-        appointment.setAppointmentDate(
-                LocalDate.parse(request.getAppointmentDate())
-        );
+        appointment.setAppointmentDate(LocalDate.parse(request.getAppointmentDate()));
 
         Appointment saved = appointmentRepository.save(appointment);
 
@@ -58,32 +53,20 @@ public class AppointmentService {
         );
     }
 
-    // GET ALL APPOINTMENTS
+    // ✅ GET ALL APPOINTMENTS (clean DTO list)
     public List<AppointmentResponse> getAllAppointmentsDTO() {
 
-        return appointmentRepository.findAll()
-                .stream()
-                .map(app -> new AppointmentResponse(
-                        app.getAppointmentId(),
-                        app.getAppointmentDate().toString(),
-                        app.getPatient().getPatientName(),
-                        app.getDoctor().getDoctorName()
-                ))
-                .toList();
-    }
+        return appointmentRepository.findAll().stream().map(app -> {
 
-    // GET APPOINTMENTS BY PATIENT
-    public List<AppointmentResponse> getAppointmentsByPatient(Long patientId) {
+            AppointmentResponse response = new AppointmentResponse();
 
-        return appointmentRepository
-                .findByPatientPatientId(patientId)
-                .stream()
-                .map(app -> new AppointmentResponse(
-                        app.getAppointmentId(),
-                        app.getAppointmentDate().toString(),
-                        app.getPatient().getPatientName(),
-                        app.getDoctor().getDoctorName()
-                ))
-                .toList();
+            response.setAppointmentId(app.getAppointmentId());
+            response.setAppointmentDate(app.getAppointmentDate().toString());
+            response.setPatientName(app.getPatient().getPatientName());
+            response.setDoctorName(app.getDoctor().getDoctorName());
+
+            return response;
+
+        }).toList();
     }
 }
